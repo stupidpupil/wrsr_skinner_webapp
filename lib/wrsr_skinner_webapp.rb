@@ -26,8 +26,7 @@ class MyApp < Sinatra::Base
 
   def brand_from_hash(brand_hash)
     WRSRSkinner::Brand.new(
-      {logo:'transparent'}.merge(brand_hash).map {|k,v| [k,transform_brand_color(v)]}.to_h, 
-      "sealg"
+      {logo:'transparent'}.merge(brand_hash).map {|k,v| [k, k == 'logo_name' ? v : transform_brand_color(v)]}.to_h, 
     )
   end
 
