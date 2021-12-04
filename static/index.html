@@ -4,6 +4,8 @@
 <meta charset=utf-8>
 <title>blah</title>
 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.6/jscolor.min.js"></script> 
+
 <style type="text/css">
   #theme-preview{
     height: 512px;
@@ -16,25 +18,31 @@
     background-color: grey;
   }
 
+  #theme-form label{
+    width: 10em;
+    text-align: right;
+    display: inline-block;
+  }
+
 </style>
 
 </head>
 <body>
   <form id="theme-form" action="/preview/open_kmz_5410/base.dds">
     <label for="theme-input-base">Base Color</label>
-    <input id="theme-input-base" name="base" type="color">
+    <input id="theme-input-base" name="base" data-jscolor="" value="#00000000"><br/>
 
     <label for="theme-input-stripe">Stripe Color</label>
-    <input id="theme-input-stripe" name="stripe" type="color">
+    <input id="theme-input-stripe" name="stripe" data-jscolor="" value="#00000000"><br/>
 
     <label for="theme-input-logo">Logo Color</label>
-    <input id="theme-input-logo" name="logo" type="color">
+    <input id="theme-input-logo" name="logo" data-jscolor="" value="#00000000"><br/>
 
     <label for="theme-input-cab_base">Cab Base Color</label>
-    <input id="theme-input-cab_base" name="cab_base" type="color">
+    <input id="theme-input-cab_base" name="cab_base" data-jscolor="" value="#00000000"><br/>
 
     <label for="theme-input-cab_stripe_base">Cab Stripe Base Color</label>
-    <input id="theme-input-cab_stripe_base" name="cab_stripe_base" type="color">
+    <input id="theme-input-cab_stripe_base" name="cab_stripe_base" data-jscolor="" value="#00000000"><br/>
 
   </form>
 
@@ -43,6 +51,29 @@
   <a id="download-bundle" href="/bundle">Download bundle</a>
 
   <script type="text/javascript">
+
+    function debounce(func, wait, immediate) {
+      var timeout;
+
+      return function executedFunction() {
+        var context = this;
+        var args = arguments;
+          
+        var later = function() {
+          timeout = null;
+          if (!immediate) func.apply(context, args);
+        };
+
+        var callNow = immediate && !timeout;
+      
+        clearTimeout(timeout);
+
+        timeout = setTimeout(later, wait);
+      
+        if (callNow) func.apply(context, args);
+      };
+    };
+
     var theme_preview = document.getElementById('theme-preview');
 
     var getThemeParams = function() {
@@ -51,10 +82,11 @@
     }
     
     var updateThemePreview = function(){
-      theme_preview.classList.add('awaiting-update');
       var preview_url = document.getElementById('theme-form')['action'] + '?' + getThemeParams();
       theme_preview['src'] = preview_url;
     }
+
+    var debouncedUpdateThemePreview = debounce(updateThemePreview, 500, false);
 
     var updateBundleLink = function(){
       document.getElementById("download-bundle")['href'] = '/bundle?' + getThemeParams();
@@ -67,12 +99,15 @@
     theme_preview.addEventListener('loadend', themePreviewDidLoad);
 
     var themeFormDidChange = function(e){
-      updateThemePreview();
+      theme_preview.classList.add('awaiting-update');
+      debouncedUpdateThemePreview();
       updateBundleLink();
     }
 
     var themeFormInputs = document.getElementById("theme-form").getElementsByTagName("input");
     Array.from(themeFormInputs).forEach(i => addEventListener('input', themeFormDidChange));
+
+    themeFormDidChange()
 
   </script>
 
