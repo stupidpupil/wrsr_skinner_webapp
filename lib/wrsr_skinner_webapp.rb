@@ -13,7 +13,20 @@ class MyApp < Sinatra::Base
 
   set :public_folder, __dir__ + '/../static'
 
-  # Your modular application code goes here...
+  def transform_brand_color(color)
+    color = color.to_s unless color.is_a? String 
+    color.downcase!
+    return '#FF00FFFF' unless color =~ /\A#[0-9a-fA-F]{8}\Z/
+    return 'transparent' if color[-2..-1] == "00"
+    return color
+  end
+
+  def brand_from_hash(brand_hash)
+    WRSRSkinner::Brand.new(
+      {logo:'transparent'}.merge(brand_hash).map {|k,v| [k,transform_brand_color(v)]}.to_h, 
+      "sealg"
+    )
+  end
 
   get '/preview/:skinnable/:texture' do
     skinnables = WRSRSkinner::Skinnable.all
@@ -21,9 +34,7 @@ class MyApp < Sinatra::Base
     status 404 unless texture = skinnable.texture_wrappers[params['texture']]
     return unless texture
 
-    brand = WRSRSkinner::Brand.new({logo:'transparent'}.merge(params), 
-      "sealg"
-      )
+    brand = brand_from_hash(params)
 
     content_type 'jpg'
     texture.
@@ -41,9 +52,7 @@ class MyApp < Sinatra::Base
 
   get '/bundle' do
 
-    brand = WRSRSkinner::Brand.new({logo:'transparent'}.merge(params), 
-      "sealg"
-      )
+    brand = brand_from_hash(params)
 
     zip_io = StringIO.new
 
