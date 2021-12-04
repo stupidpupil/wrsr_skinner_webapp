@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>blah</title>
+
+<style type="text/css">
+  #theme-preview{
+    height: 512px;
+    width: 512px;
+    float: right;
+  }
+
+  #theme-preview.awaiting-update{
+    filter: blur(5px);
+    background-color: grey;
+  }
+
+</style>
+
+</head>
+<body>
+  <form id="theme-form" action="/preview/open_kmz_5410/base.dds">
+    <label for="theme-input-base">Base Color</label>
+    <input id="theme-input-base" name="base" type="color">
+
+    <label for="theme-input-stripe">Stripe Color</label>
+    <input id="theme-input-stripe" name="stripe" type="color">
+
+    <label for="theme-input-logo">Logo Color</label>
+    <input id="theme-input-logo" name="logo" type="color">
+
+    <label for="theme-input-cab_base">Cab Base Color</label>
+    <input id="theme-input-cab_base" name="cab_base" type="color">
+
+    <label for="theme-input-cab_stripe_base">Cab Stripe Base Color</label>
+    <input id="theme-input-cab_stripe_base" name="cab_stripe_base" type="color">
+
+  </form>
+
+  <img id="theme-preview"></img>
+
+  <a id="download-bundle" href="/bundle">Download bundle</a>
+
+  <script type="text/javascript">
+    var theme_preview = document.getElementById('theme-preview');
+
+    var getThemeParams = function() {
+      var form_data = new FormData(document.getElementById('theme-form'))
+      return(new URLSearchParams(form_data).toString());
+    }
+    
+    var updateThemePreview = function(){
+      theme_preview.classList.add('awaiting-update');
+      var preview_url = document.getElementById('theme-form')['action'] + '?' + getThemeParams();
+      theme_preview['src'] = preview_url;
+    }
+
+    var updateBundleLink = function(){
+      document.getElementById("download-bundle")['href'] = '/bundle?' + getThemeParams();
+    }
+
+    var themePreviewDidLoad = function(e){
+      theme_preview.classList.remove('awaiting-update');
+    }
+
+    theme_preview.addEventListener('loadend', themePreviewDidLoad);
+
+    var themeFormDidChange = function(e){
+      updateThemePreview();
+      updateBundleLink();
+    }
+
+    var themeFormInputs = document.getElementById("theme-form").getElementsByTagName("input");
+    Array.from(themeFormInputs).forEach(i => addEventListener('input', themeFormDidChange));
+
+  </script>
+
+</body>
+</html>
