@@ -16,6 +16,10 @@ class MyApp < Sinatra::Base
 
   set :public_folder, __dir__ + '/../static'
 
+  get '/' do
+    send_file File.expand_path('index.html', settings.public_folder)
+  end
+
   def transform_brand_color(color)
     color = color.to_s unless color.is_a? String 
     color.downcase!
