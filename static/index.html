@@ -7,11 +7,11 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.6/jscolor.min.js"></script> 
 
 <style type="text/css">
-  #theme-preview{
+  .theme-preview{
     float: right;
   }
 
-  #theme-preview.awaiting-update{
+  .theme-preview.awaiting-update{
     filter: blur(5px);
     background-color: grey;
   }
@@ -26,7 +26,7 @@
 
 </head>
 <body>
-  <form id="theme-form" action="/preview/covered_ifa_w50/covered.dds">
+  <form id="theme-form">
 
     <label for="theme-input-logo_name">Logo Name</label>
     <select name="logo_name" id="theme-input-logo_name">
@@ -57,7 +57,9 @@
 
   </form>
 
-  <img id="theme-preview"></img>
+  <img class="theme-preview" data-theme-preview-url="/preview/covered_ifa_w50/covered.dds"></img>
+
+  <img class="theme-preview" data-theme-preview-url="/preview/open_kmz_5320/base.dds"></img>
 
   <a id="download-bundle" href="/bundle">Download bundle</a>
 
@@ -85,7 +87,7 @@
       };
     };
 
-    var theme_preview = document.getElementById('theme-preview');
+    var theme_previews = document.getElementsByClassName("theme-preview");
 
     var getThemeParams = function() {
       var form_data = new FormData(document.getElementById('theme-form'))
@@ -93,8 +95,8 @@
     }
     
     var updateThemePreview = function(){
-      var preview_url = document.getElementById('theme-form')['action'] + '?' + getThemeParams();
-      theme_preview['src'] = preview_url;
+      var theme_params =  getThemeParams();
+      Array.from(theme_previews).forEach(e => e['src'] = e['dataset']['themePreviewUrl'] + '?' + theme_params);
     }
 
     var debouncedUpdateThemePreview = debounce(updateThemePreview, 500, false);
@@ -103,14 +105,14 @@
       document.getElementById("download-bundle")['href'] = '/bundle?' + getThemeParams();
     }
 
-    var themePreviewDidLoad = function(e){
-      theme_preview.classList.remove('awaiting-update');
+    var themePreviewDidLoad = function(evt){
+      evt.target.classList.remove('awaiting-update');
     }
 
-    theme_preview.addEventListener('loadend', themePreviewDidLoad);
+    Array.from(theme_previews).forEach(e => e.addEventListener('loadend', themePreviewDidLoad));
 
     var themeFormDidChange = function(e){
-      theme_preview.classList.add('awaiting-update');
+      Array.from(theme_previews).forEach(e => e.classList.add('awaiting-update'));
       debouncedUpdateThemePreview();
       updateBundleLink();
     }

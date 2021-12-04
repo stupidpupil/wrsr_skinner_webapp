@@ -12,7 +12,7 @@ class MyApp < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  use Rack::Throttle::Second,   :max => 3
+  use Rack::Throttle::Second,   :max => 5
 
   set :public_folder, __dir__ + '/../static'
 
