@@ -1,5 +1,6 @@
 require "sinatra/base"
 require "sinatra/reloader"
+require "rack/throttle"
 require 'tmpdir'
 require 'parallel'
 require 'zip'
@@ -11,12 +12,14 @@ class MyApp < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  use Rack::Throttle::Second,   :max => 3
+
   set :public_folder, __dir__ + '/../static'
 
   def transform_brand_color(color)
     color = color.to_s unless color.is_a? String 
     color.downcase!
-    return '#FF00FFFF' unless color =~ /\A#[0-9a-fA-F]{8}\Z/
+    return '#FF00FFFF' unless color =~ /\A#[0-9a-f]{8}\Z/
     return 'transparent' if color[-2..-1] == "00"
     return color
   end
