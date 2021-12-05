@@ -7,8 +7,13 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.6/jscolor.min.js"></script> 
 
 <style type="text/css">
+
+  html{
+    font-family: sans-serif;
+  }
+
   .theme-preview{
-    float: right;
+    max-width: 100%;
   }
 
   .theme-preview.awaiting-update{
@@ -18,51 +23,83 @@
 
   #theme-form label{
     width: 10em;
+    padding-top: 0.5em;
     text-align: right;
     display: inline-block;
+  }
+
+  #theme-form input, #theme-form select{
+    width: 9.5em;
+  }
+
+  #theme-form input.jscolor{
+    width: 6em;
+  }
+
+  body{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  #lefthand{
+    padding: 1em;
+  }
+
+  #download-bundle{
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 1em 0em;
   }
 
 </style>
 
 </head>
 <body>
-  <form id="theme-form">
 
-    <label for="theme-input-logo_name">Logo Name</label>
-    <select name="logo_name" id="theme-input-logo_name">
-      <option value="" selected>none</option>
-      <option value="fox">fox</option>
-      <option value="sealg">sealg</option>
-      <option value="three">three</option>
-      <option value="stag">stag</option>
-      <option value="prosthetic">prosthetic</option>
-      <option value="factorym">factorym</option>
-      <option value="drainagem">drainagem</option>
-    </select><br/>
+  <div id="lefthand">
+    <form id="theme-form">
 
-    <label for="theme-input-base">Base Color</label>
-    <input id="theme-input-base" name="base" data-jscolor="" value="#00000000"><br/>
+      <label for="theme-input-logo_name">Logo Name</label>
+      <select name="logo_name" id="theme-input-logo_name">
+        <option value="" selected>none</option>
+        <option value="fox">fox</option>
+        <option value="sealg">sealg</option>
+        <option value="three">three</option>
+        <option value="stag">stag</option>
+        <option value="prosthetic">prosthetic</option>
+        <option value="factorym">factorym</option>
+        <option value="drainagem">drainagem</option>
+      </select><br/>
 
-    <label for="theme-input-stripe">Stripe Color</label>
-    <input id="theme-input-stripe" name="stripe" data-jscolor="" value="#00000000"><br/>
+      <label for="theme-input-base">Base Color</label>
+      <input id="theme-input-base" name="base" data-jscolor="" value="#00000000"><br/>
 
-    <label for="theme-input-wooden_hull_base">Wooden Hull Color</label>
-    <input id="theme-input-wooden_hull_base" name="wooden_hull_base" data-jscolor="" value="#00000000"><br/>
+      <label for="theme-input-stripe">Stripe Color</label>
+      <input id="theme-input-stripe" name="stripe" data-jscolor="" value="#00000000"><br/>
 
-    <label for="theme-input-logo">Logo Color</label>
-    <input id="theme-input-logo" name="logo" data-jscolor="" value="#00000000"><br/>
+      <label for="theme-input-wooden_hull_base">Wooden Hull Color</label>
+      <input id="theme-input-wooden_hull_base" name="wooden_hull_base" data-jscolor="" value="#00000000"><br/>
 
-    <label for="theme-input-cab_base">Cab Base Color</label>
-    <input id="theme-input-cab_base" name="cab_base" data-jscolor="" value="#00000000"><br/>
+      <label for="theme-input-logo">Logo Color</label>
+      <input id="theme-input-logo" name="logo" data-jscolor="" value="#00000000"><br/>
 
-    <label for="theme-input-cab_stripe_base">Cab Stripe Base Color</label>
-    <input id="theme-input-cab_stripe_base" name="cab_stripe_base" data-jscolor="" value="#00000000"><br/>
+      <label for="theme-input-cab_base">Cab Base Color</label>
+      <input id="theme-input-cab_base" name="cab_base" data-jscolor="" value="#00000000"><br/>
 
-  </form>
+      <label for="theme-input-cab_stripe_base">Cab Stripe Base Color</label>
+      <input id="theme-input-cab_stripe_base" name="cab_stripe_base" data-jscolor="" value="#00000000"><br/>
 
-  <img class="theme-preview" data-theme-preview-url="/preview/preview/ifa_w_50.png"></img>
+    </form>
+    <a id="download-bundle" href="/bundle">Download bundle</a>
 
-  <a id="download-bundle" href="/bundle">Download bundle</a>
+  </div>
+
+  <div id="righthand">
+    <img class="theme-preview" data-theme-preview-url="/preview/preview/ifa_w_50.png"></img>
+  </div>
+
 
   <script type="text/javascript">
 
