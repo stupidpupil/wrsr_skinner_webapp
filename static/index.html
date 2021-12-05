@@ -115,12 +115,26 @@
       Array.from(theme_previews).forEach(e => e.classList.add('awaiting-update'));
       debouncedUpdateThemePreview();
       updateBundleLink();
+
+      if(e != null){
+        const params = new URLSearchParams(location.search);
+        params.set(e.target['name'], e.target['value']);
+        window.history.replaceState({}, '', `${location.pathname}?${params}`);
+      }
+    }
+
+    const params = new URLSearchParams(location.search);
+    for (let p of params){
+      var pe = document.getElementById("theme-input-"+p[0]);
+      if(pe != null){
+        pe['value'] = p[1];
+      }
     }
 
     var themeFormInputs = document.getElementById("theme-form").getElementsByTagName("input");
     Array.from(themeFormInputs).forEach(i => addEventListener('input', themeFormDidChange));
 
-    themeFormDidChange()
+    themeFormDidChange();
 
   </script>
 
