@@ -45,7 +45,7 @@ class MyApp < Sinatra::Base
     content_type 'jpg'
     texture.
       texture_with_brand(brand).
-      resize_to_fit(512,512).
+      resize_to_fit(1024,1024).
       to_blob {|b| b.format = 'jpg'}
   end
 
