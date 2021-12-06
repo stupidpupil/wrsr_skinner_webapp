@@ -4,12 +4,16 @@
 <meta charset=utf-8>
 <title>blah</title>
 
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.6/jscolor.min.js"></script> 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.6/jscolor.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">  
 
 <style type="text/css">
 
   html{
-    font-family: sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
   }
 
   .theme-preview{
@@ -34,6 +38,12 @@
 
   #theme-form input.jscolor{
     width: 6em;
+    font-family: monospace;
+    color: #aaa;
+  }
+
+  #theme-form fieldset{
+    margin-bottom: 1em;
   }
 
   body{
@@ -61,47 +71,59 @@
   <div id="lefthand">
     <form id="theme-form">
 
-      <label for="theme-input-logo_name">Logo Name</label>
-      <select name="logo_name" id="theme-input-logo_name">
-        <option value="" selected>none</option>
-        <option value="fox">fox</option>
-        <option value="sealg">sealg</option>
-        <option value="three">three</option>
-        <option value="stag">stag</option>
-        <option value="prosthetic">prosthetic</option>
-        <option value="factorym">factorym</option>
-        <option value="drainagem">drainagem</option>
-        <option value="baking">baking</option>
-        <option value="chickenv">chickenv</option>
-        <option value="fishfood">fishfood</option>
-        <option value="grapes">grapes</option>
-        <option value="metal">metal</option>
-        <option value="pp">pp</option>
-        <option value="sunman">sunman</option>
-        <option value="textind">textind</option>
-        <option value="droplet">droplet</option>
-      </select><br/>
+      <fieldset>
+        <legend>Common</legend>
 
-      <label for="theme-input-base">Base Color</label>
-      <input id="theme-input-base" name="base" data-jscolor="" value="#00000000"><br/>
+        <label for="theme-input-logo_name">Logo Name</label>
+        <select name="logo_name" id="theme-input-logo_name">
+          <option value="" selected>none</option>
+          <option value="fox">fox</option>
+          <option value="sealg">sealg</option>
+          <option value="three">three</option>
+          <option value="stag">stag</option>
+          <option value="prosthetic">prosthetic</option>
+          <option value="factorym">factorym</option>
+          <option value="drainagem">drainagem</option>
+          <option value="baking">baking</option>
+          <option value="chickenv">chickenv</option>
+          <option value="fishfood">fishfood</option>
+          <option value="grapes">grapes</option>
+          <option value="metal">metal</option>
+          <option value="pp">pp</option>
+          <option value="sunman">sunman</option>
+          <option value="textind">textind</option>
+        </select><br/>
+      </fieldset>
 
-      <label for="theme-input-stripe">Stripe Color</label>
-      <input id="theme-input-stripe" name="stripe" data-jscolor="" value="#00000000"><br/>
+      <fieldset>
+        <legend>Truck Bodies</legend>
+        <label for="theme-input-base">Body Base</label>
+        <input id="theme-input-base" name="base" data-jscolor="" value="#00000000"><br/>
 
-      <label for="theme-input-wooden_hull_base">Wooden Hull Color</label>
-      <input id="theme-input-wooden_hull_base" name="wooden_hull_base" data-jscolor="" value="#00000000"><br/>
+        <label for="theme-input-stripe">Body Stripe</label>
+        <input id="theme-input-stripe" name="stripe" data-jscolor="" value="#00000000"><br/>
 
-      <label for="theme-input-logo">Logo Color</label>
-      <input id="theme-input-logo" name="logo" data-jscolor="" value="#00000000"><br/>
+        <label for="theme-input-wooden_hull_base">Lower Body/Bed</label>
+        <input id="theme-input-wooden_hull_base" name="wooden_hull_base" data-jscolor="" value="#00000000"><br/>
 
-      <label for="theme-input-cab_base">Cab Base Color</label>
-      <input id="theme-input-cab_base" name="cab_base" data-jscolor="" value="#00000000"><br/>
+        <label for="theme-input-logo">Body Logo</label>
+        <input id="theme-input-logo" name="logo" data-jscolor="" value="#00000000"><br/>
 
-      <label for="theme-input-cab_stripe_base">Cab Stripe Base Color</label>
-      <input id="theme-input-cab_stripe_base" name="cab_stripe_base" data-jscolor="" value="#00000000"><br/>
+      </fieldset>
 
-      <label for="theme-input-cab_stripe_logo">Cab Stripe Logo Color</label>
-      <input id="theme-input-cab_stripe_logo" name="cab_stripe_logo" data-jscolor="" value="#00000000"><br/>
+      <fieldset>
+        <legend>Truck Cabs</legend>
+
+        <label for="theme-input-cab_base">Cab Base</label>
+        <input id="theme-input-cab_base" name="cab_base" data-jscolor="" value="#00000000"><br/>
+
+        <label for="theme-input-cab_stripe_base">Cab Stripe Base</label>
+        <input id="theme-input-cab_stripe_base" name="cab_stripe_base" data-jscolor="" value="#00000000"><br/>
+
+        <label for="theme-input-cab_stripe_logo">Cab Stripe Logo</label>
+        <input id="theme-input-cab_stripe_logo" name="cab_stripe_logo" data-jscolor="" value="#00000000"><br/>
+
+    </fieldset>
 
     </form>
     <a id="download-bundle" href="/bundle">Download bundle</a>
