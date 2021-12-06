@@ -63,7 +63,7 @@ class MyApp < Sinatra::Base
     zip_io = StringIO.new
 
     Dir.mktmpdir() do |temp_dir|
-      skinnables = WRSRSkinner::Skinnable.all(temp_dir)
+      skinnables = WRSRSkinner::Skinnable.all(temp_dir).find_all {|sk| sk.include_in_bundle? }
 
       Parallel.each(skinnables,  in_processes: 4) {|s| s.save_textures_with_brand(brand)}
 
