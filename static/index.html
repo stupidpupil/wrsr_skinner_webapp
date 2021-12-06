@@ -100,6 +100,9 @@
       <label for="theme-input-cab_stripe_base">Cab Stripe Base Color</label>
       <input id="theme-input-cab_stripe_base" name="cab_stripe_base" data-jscolor="" value="#00000000"><br/>
 
+      <label for="theme-input-cab_stripe_logo">Cab Stripe Logo Color</label>
+      <input id="theme-input-cab_stripe_logo" name="cab_stripe_logo" data-jscolor="" value="#00000000"><br/>
+
     </form>
     <a id="download-bundle" href="/bundle">Download bundle</a>
 
@@ -156,7 +159,7 @@
       evt.target.classList.remove('awaiting-update');
     }
 
-    Array.from(theme_previews).forEach(e => e.addEventListener('loadend', themePreviewDidLoad));
+    Array.from(theme_previews).forEach(e => e.addEventListener('load', themePreviewDidLoad));
 
     var themeFormDidChange = function(e){
       Array.from(theme_previews).forEach(e => e.classList.add('awaiting-update'));
