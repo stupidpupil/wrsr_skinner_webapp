@@ -15,9 +15,10 @@ class MyApp < Sinatra::Base
   use Rack::Throttle::Second,   :max => 5
 
   set :public_folder, __dir__ + '/../static'
+  set :views, 'views'
 
   get '/' do
-    send_file File.expand_path('index.html', settings.public_folder)
+    erb :index
   end
 
   def transform_brand_color(color)
@@ -58,7 +59,7 @@ class MyApp < Sinatra::Base
 
     brand = brand_from_hash(params)
 
-    mod_wrapper = WRSRSkinner::ModWrapper.new(['open_ifa_w50'], brand)
+    mod_wrapper = WRSRSkinner::ModWrapper.new([params['requested_skinnable_id']].flatten, brand)
     zip_io = mod_wrapper.zip_io
 
     if zip_io.length == 0 or zip_io.length > BundleZipMaxSizeBytes

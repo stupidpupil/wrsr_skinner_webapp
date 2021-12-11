@@ -4,7 +4,7 @@
 <meta charset=utf-8>
 <title>blah</title>
 
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.6/jscolor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.6/jscolor.min.js"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,29 +77,9 @@
         <label for="theme-input-logo_name">Logo Name</label>
         <select name="logo_name" id="theme-input-logo_name">
           <option value="" selected>none</option>
-          <option value="fox">fox</option>
-          <option value="sealg">sealg</option>
-          <option value="three">three</option>
-          <option value="stag">stag</option>
-          <option value="prosthetic">prosthetic</option>
-          <option value="factorym">factorym</option>
-          <option value="drainagem">drainagem</option>
-          <option value="baking">baking</option>
-          <option value="chickenv">chickenv</option>
-          <option value="fishfood">fishfood</option>
-          <option value="grapes">grapes</option>
-          <option value="metal">metal</option>
-          <option value="pp">pp</option>
-          <option value="sunman">sunman</option>
-          <option value="textind">textind</option>
-          <option value="house">house</option>
-          <option value="flowerfood">flowerfood</option>
-          <option value="circle_arrows">circle_arrows</option>
-          <option value="mflame">mflame</option>
-          <option value="tbship">tbship</option>
-          <option value="dots">dots</option>
-          <option value="trirail">trirail</option>
-          <option value="doublearrow">doublearrow</option>
+          <% WRSRSkinner::Logo.valid_logo_names.each do |ln| %>
+            <option value="<%= ln %>"><%= ln %></option>
+          <% end %>
         </select><br/>
       </fieldset>
 
@@ -134,6 +114,29 @@
     </fieldset>
 
     </form>
+
+    <form id="bundle-form">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Include?</th>
+          </tr>
+        </thead>
+
+        <tbody id="bundle-form-skinnable-table">
+        <% WRSRSkinner::Skinnable.all.find_all { |sk| sk.include_in_bundle? }.each do |sk| %>
+          <tr>
+            <td><label for="request_skinnable_id-<%= sk.skinnable_wrsr_path %>"><%= sk.skinnable_wrsr_path %></label></td>
+            <td><input type="checkbox" id="request_skinnable_id-<%= sk.skinnable_wrsr_path %>" 
+              name="requested_skinnable_id" value="<%= sk.skinnable_wrsr_path %>"></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </form>
+
+
     <a id="download-bundle" href="/bundle">Download bundle</a>
 
   </div>
@@ -174,6 +177,11 @@
       return(new URLSearchParams(form_data).toString());
     }
     
+    var getBundleParams = function() {
+      var bundle_data = new FormData(document.getElementById('bundle-form'))
+      return(new URLSearchParams(bundle_data).toString());
+    }
+
     var updateThemePreview = function(){
       var theme_params =  getThemeParams();
       Array.from(theme_previews).forEach(e => e['src'] = e['dataset']['themePreviewUrl'] + '?' + theme_params);
@@ -182,7 +190,7 @@
     var debouncedUpdateThemePreview = debounce(updateThemePreview, 500, false);
 
     var updateBundleLink = function(){
-      document.getElementById("download-bundle")['href'] = '/bundle?' + getThemeParams();
+      document.getElementById("download-bundle")['href'] = '/bundle?' + getThemeParams() + '&' + getBundleParams();
     }
 
     var themePreviewDidLoad = function(evt){
@@ -190,6 +198,23 @@
     }
 
     Array.from(theme_previews).forEach(e => e.addEventListener('load', themePreviewDidLoad));
+
+    var updateBundleFormInputs = function(){
+      var bundleFormInputs = document.getElementById("bundle-form").getElementsByTagName("input");
+      var countOfRequestedSkinnableIds = 0;
+      Array.from(bundleFormInputs).forEach(i => {
+        if (i['name'] == 'requested_skinnable_id' && i['checked']) {
+          countOfRequestedSkinnableIds += 1;
+        }
+      })
+
+      if(countOfRequestedSkinnableIds >= 16){
+        Array.from(bundleFormInputs).forEach(i => {if (!i['checked']) {i['disabled'] = true;}})
+      }else{
+        Array.from(bundleFormInputs).forEach(i => i['disabled'] = false)
+      }
+
+    }
 
     var themeFormDidChange = function(e){
       Array.from(theme_previews).forEach(e => e.classList.add('awaiting-update'));
@@ -203,6 +228,11 @@
       }
     }
 
+    var bundleFormDidChange = function(e){
+      updateBundleLink();
+      updateBundleFormInputs();
+    }
+
     const params = new URLSearchParams(location.search);
     for (let p of params){
       var pe = document.getElementById("theme-input-"+p[0]);
@@ -214,7 +244,11 @@
     var themeFormInputs = document.getElementById("theme-form").getElementsByTagName("input");
     Array.from(themeFormInputs).forEach(i => addEventListener('input', themeFormDidChange));
 
+    var bundleFormInputs = document.getElementById("bundle-form").getElementsByTagName("input");
+    Array.from(bundleFormInputs).forEach(i => addEventListener('input', bundleFormDidChange));
+
     themeFormDidChange();
+    bundleFormDidChange();
 
   </script>
 
