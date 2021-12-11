@@ -50,44 +50,24 @@ class MyApp < Sinatra::Base
   end
 
 
-  # These constraints are meant to prevent serving any bundle
+  # This constraint are meant to prevent serving any bundle
   # whose generation seems to have gone badly wrong
-  BundleMaxFileCount = 200
-  BundleMaxSizeBytes = 100*1024*1024
   BundleZipMaxSizeBytes = 60*1024*2024
 
   get '/bundle' do
 
     brand = brand_from_hash(params)
 
-    zip_io = StringIO.new
-
-    Dir.mktmpdir() do |temp_dir|
-      skinnables = WRSRSkinner::Skinnable.all(temp_dir).find_all {|sk| sk.include_in_bundle? }
-
-      Parallel.each(skinnables,  in_processes: 4) {|s| s.save_textures_with_brand(brand)}
-
-      files_to_be_zipped = Dir[ File.join( temp_dir, "**", "**" ) ]
-
-      break if files_to_be_zipped.count > BundleMaxFileCount
-      files_to_be_zipped_size = files_to_be_zipped.map {|f| File.file?(f) ? File.size(f) : 0 }.inject(:+)
-      break if files_to_be_zipped_size > BundleMaxSizeBytes
-
-      Zip::File.open_buffer(zip_io) do |zip_file|
-        files_to_be_zipped.each do |file|
-          zip_file.add( file.sub( "#{ temp_dir }/", "" ), file )
-        end
-      end
-      
-    end
+    mod_wrapper = WRSRSkinner::ModWrapper.new(['open_ifa_w50'], brand)
+    zip_io = mod_wrapper.zip_io
 
     if zip_io.length == 0 or zip_io.length > BundleZipMaxSizeBytes
+      zip_io.close
       status 500
       content_type 'txt'
       return "Bundle constraints violated"
     end
 
-    zip_io.rewind
     ret = zip_io.read
     zip_io.close
 
@@ -95,7 +75,6 @@ class MyApp < Sinatra::Base
     attachment 'bundle.zip'
     ret
   end
-
 
   run! if app_file == $0
 end
