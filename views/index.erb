@@ -119,15 +119,19 @@
       <table>
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Family</th>
+            <th>Type</th>
             <th>Include?</th>
           </tr>
         </thead>
 
         <tbody id="bundle-form-skinnable-table">
-        <% WRSRSkinner::Skinnable.all.find_all { |sk| sk.include_in_bundle? }.each do |sk| %>
+        <% WRSRSkinner::Skinnable.all.
+          find_all { |sk| sk.include_in_bundle? }.
+          sort_by { |sk| [sk.vehicle_family, sk.vehicle_type] }.each do |sk| %>
           <tr>
-            <td><label for="request_skinnable_id-<%= sk.skinnable_wrsr_path %>"><%= sk.skinnable_wrsr_path %></label></td>
+            <td><label for="request_skinnable_id-<%= sk.skinnable_wrsr_path %>"><%= sk.vehicle_family %></label></td>
+            <td><label for="request_skinnable_id-<%= sk.skinnable_wrsr_path %>"><%= sk.vehicle_type %></label></td>
             <td><input type="checkbox" id="request_skinnable_id-<%= sk.skinnable_wrsr_path %>" 
               name="requested_skinnable_id[]" value="<%= sk.skinnable_wrsr_path %>"></td>
           </tr>
