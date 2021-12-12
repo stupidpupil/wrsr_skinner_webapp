@@ -95,8 +95,12 @@ var searchSkinnableTableInputDidChange = function(e){
   var searchText = document.querySelector('#search-skinnable-table-input').value;
   var countOfUncheckedVisibleRows = 0;
 
+  var trMatchesSearchText = function(tr, searchText){
+    return(searchText.split(' ').every(term => tr.textContent.includes(term)))
+  }
+
   Array.from(skinnableRows).forEach(tr => {
-    if(searchText == '' || tr.textContent.includes(searchText)){
+    if(searchText == '' || trMatchesSearchText(tr, searchText)){
       tr.classList.remove('hidden-by-search');
     }else{
       tr.classList.add('hidden-by-search');
