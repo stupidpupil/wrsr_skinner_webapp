@@ -1,0 +1,53 @@
+html{
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.theme-preview{
+  max-width: 100%;
+}
+
+.theme-preview.awaiting-update{
+  filter: blur(5px);
+  background-color: grey;
+}
+
+#theme-form label{
+  width: 10em;
+  padding-top: 0.5em;
+  text-align: right;
+  display: inline-block;
+}
+
+#theme-form input, #theme-form select{
+  width: 9.5em;
+}
+
+#theme-form input.jscolor{
+  width: 6em;
+  font-family: monospace;
+  color: #aaa;
+}
+
+#theme-form fieldset{
+  margin-bottom: 1em;
+}
+
+body{
+  display: flex;
+  flex-direction: row;
+}
+
+#lefthand{
+  padding: 1em;
+}
+
+#download-bundle{
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 1em 0em;
+}
+
+.hidden-by-search{
+  display: none;
+}
