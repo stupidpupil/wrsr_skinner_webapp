@@ -96,7 +96,13 @@ var searchSkinnableTableInputDidChange = function(e){
   var countOfUncheckedVisibleRows = 0;
 
   var trMatchesSearchText = function(tr, searchText){
-    return(searchText.split(' ').every(term => tr.textContent.includes(term)))
+
+    var mustIncludeTerms = searchText.split(' ').filter(i => i[0] != '-')
+    var mustNotIncludeTerms = searchText.split(' ').filter(i => i[0] == '-').map(i => i.substring(1))
+
+    return(
+      mustIncludeTerms.every(term => tr.textContent.includes(term)) && 
+      mustNotIncludeTerms.every(term => !tr.textContent.includes(term)))
   }
 
   Array.from(skinnableRows).forEach(tr => {
