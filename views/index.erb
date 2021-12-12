@@ -63,6 +63,10 @@
     padding: 1em 0em;
   }
 
+  .hidden-by-search{
+    display: none;
+  }
+
 </style>
 
 </head>
@@ -114,6 +118,11 @@
     </fieldset>
 
     </form>
+
+    <input id="search-skinnable-table-input"></input><br/>
+    <button id="add-visible-skinnable-button">Add to Bundle</button>
+    <button id="remove-visible-skinnable-button">Remove from Bundle</button><br/>
+    <span id="bundle-selected-count"></span>
 
     <form id="bundle-form">
       <table>
