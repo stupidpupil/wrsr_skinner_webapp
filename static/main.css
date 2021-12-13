@@ -12,7 +12,7 @@ html{
 }
 
 #theme-form label{
-  width: 10em;
+  width: 8em;
   padding-top: 0.5em;
   text-align: right;
   display: inline-block;
@@ -39,6 +39,7 @@ body{
 
 #lefthand{
   padding: 1em;
+  min-width: calc(9.5em + 6em + 3em);
 }
 
 #download-bundle{
