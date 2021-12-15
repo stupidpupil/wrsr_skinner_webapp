@@ -32,7 +32,7 @@ html{
   margin-bottom: 1em;
 }
 
-body{
+#theme-builder{
   display: flex;
   flex-direction: row;
 }
@@ -49,6 +49,94 @@ body{
   padding: 1em 0em;
 }
 
-.hidden-by-search{
+
+
+
+.skinnable{
+  display: inline-block;
+  height: 2.5em;
+  width: 8.6em;
+  background-color: #ddd;
+  padding: 0.3em;
+  margin: 0.2em 0.05em;
+  overflow: hidden;
+  position: relative;
+  vertical-align: middle;
+  border-radius: 0.3em;
+  border: 2px solid transparent;
+}
+
+.skinnable:hover{
+  border: 2px solid #777;
+}
+
+
+.skinnable.checked{
+  background-color: #bcf;
+}
+
+
+.skinnable.hidden-by-search{
   display: none;
+}
+
+.skinnable input{
+  position: absolute;
+  top: 0em;
+  right: 0em;
+}
+
+.vehicle_family{
+  width: 5.5em;
+  display: inline-block;
+  overflow-wrap: anywhere;
+}
+
+.vehicle_type{
+  transform: rotate(45deg);
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+  right: -2.45em;
+  top: 1.1em;
+  width: 9em;
+  padding-top: 0.2em;
+  padding-bottom: 0.1em;
+  font-size: 0.8em;
+}
+
+.vehicle_type_oil{
+  background-color: #ebb;
+}
+
+.vehicle_type_snow{
+  background-color: #fff;
+  color: #777;
+}
+
+.vehicle_type_covered{
+  background-color: #c5c;
+}
+
+.vehicle_type_open{
+  background-color: #cc5;
+}
+
+.vehicle_type_refrig{
+  background-color: #5cc;
+}
+
+.vehicle_type_gravel{
+  background-color: #771;
+  color: white;
+}
+
+.vehicle_type_cement{
+  background-color: #711;
+  color: white;
+}
+
+.vehicle_type_bus{
+  border: 1px solid blue;
+  text-transform:uppercase;
 }

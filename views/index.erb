@@ -17,6 +17,7 @@
 </head>
 <body>
 
+  <div id="theme-builder">
   <div id="lefthand">
     <form id="theme-form">
 
@@ -64,45 +65,37 @@
 
     </form>
 
-    <input id="search-skinnable-table-input" placeholder="e.g. -snow -gravel ifa"></input><br/>
-    <button id="add-visible-skinnable-button">Add to Bundle</button>
-    <button id="remove-visible-skinnable-button">Remove from Bundle</button><br/>
-    <span id="bundle-selected-count"></span>
-
-    <form id="bundle-form">
-      <table>
-        <thead>
-          <tr>
-            <th>Family</th>
-            <th>Type</th>
-            <th>Include?</th>
-          </tr>
-        </thead>
-
-        <tbody id="bundle-form-skinnable-table">
-        <% WRSRSkinner::Skinnable.all.
-          find_all { |sk| sk.include_in_bundle? }.
-          sort_by { |sk| [sk.vehicle_family, sk.vehicle_type] }.each do |sk| %>
-          <tr>
-            <td><label for="request_skinnable_id-<%= sk.skinnable_wrsr_path %>"><%= sk.vehicle_family %></label></td>
-            <td><label for="request_skinnable_id-<%= sk.skinnable_wrsr_path %>"><%= sk.vehicle_type %></label></td>
-            <td><input type="checkbox" id="request_skinnable_id-<%= sk.skinnable_wrsr_path %>" 
-              name="requested_skinnable_id[]" value="<%= sk.skinnable_wrsr_path %>"></td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-    </form>
-
-
-    <a id="download-bundle" href="/bundle">Download bundle</a>
-
   </div>
 
   <div id="righthand">
     <img class="theme-preview" data-theme-preview-url="/preview/preview/ifa_w_50.png"></img>
   </div>
+  </div>
 
+  <div id="bundle-builder">
+        <input id="search-skinnable-table-input" placeholder="e.g. -snow -gravel ifa"></input><br/>
+    <button id="add-visible-skinnable-button">Add to Bundle</button>
+    <button id="remove-visible-skinnable-button">Remove from Bundle</button><br/>
+    <span id="bundle-selected-count"></span>
+
+    <form id="bundle-form">
+      <div id="skinnable-container">
+        <% WRSRSkinner::Skinnable.all.
+          find_all { |sk| sk.include_in_bundle? }.
+          sort_by { |sk| [sk.vehicle_family, sk.vehicle_type] }.each do |sk| %>
+          <label class="skinnable" for="request_skinnable_id-<%= sk.skinnable_wrsr_path %>">
+            <span class='vehicle_family'><label for="request_skinnable_id-<%= sk.skinnable_wrsr_path %>"><%= sk.vehicle_family %></label></span>
+            <span class='vehicle_type vehicle_type_<%= sk.vehicle_type %>'><label for="request_skinnable_id-<%= sk.skinnable_wrsr_path %>"><%= sk.vehicle_type %></label></span>
+            <input type="checkbox" id="request_skinnable_id-<%= sk.skinnable_wrsr_path %>" 
+              name="requested_skinnable_id[]" value="<%= sk.skinnable_wrsr_path %>">
+          </label>
+        <% end %>
+      </div>
+    </form>
+
+
+    <a id="download-bundle" href="/bundle">Download bundle</a>
+  </div>
 
   <script src="/theme_changes.js"></script>
   <script src="/bundle_changes.js"></script>

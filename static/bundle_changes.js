@@ -3,12 +3,26 @@ var RequestedSkinnableIdsCount = 0;
 var VisibleUncheckedSkinnableRowsCount = 0;
 var VisibleCheckedSkinnableRowsCount = 0;
 
+var updateSkinnableClasses = function(){
+
+  Array.from(document.querySelectorAll(".skinnable input:not(:checked)")).forEach(
+    e => e.parentNode.classList.remove('checked')
+  )
+
+  Array.from(document.querySelectorAll(".skinnable input:checked")).forEach(
+    e => e.parentNode.classList.add('checked')
+  )
+
+}
+
 var updateVisibleSkinnableRowsCounts = function() {
+  updateSkinnableClasses();
+
   VisibleUncheckedSkinnableRowsCount =
-    document.querySelectorAll("#bundle-form-skinnable-table tr:not(.hidden-by-search) input:not(:checked)").length;
+    document.querySelectorAll(".skinnable:not(.hidden-by-search) input:not(:checked)").length;
 
   VisibleCheckedSkinnableRowsCount =
-    document.querySelectorAll("#bundle-form-skinnable-table tr:not(.hidden-by-search) input:checked").length;
+    document.querySelectorAll(".skinnable:not(.hidden-by-search) input:checked").length;
 
   updateAddVisibleSkinnableButton();
   updateRemoveVisibleSkinnableButton();
@@ -60,13 +74,13 @@ var updateRemoveVisibleSkinnableButton = function(){
 }
 
 var addVisibleSkinnables = function(e){
-  var visibleSkinnables = document.querySelectorAll("#bundle-form-skinnable-table tr:not(.hidden-by-search) input");
+  var visibleSkinnables = document.querySelectorAll(".skinnable:not(.hidden-by-search) input");
   Array.from(visibleSkinnables).forEach(i => i.checked = true);
   bundleFormDidChange();
 }
 
 var removeVisibleSkinnables = function(e){
-  var visibleSkinnables = document.querySelectorAll("#bundle-form-skinnable-table tr:not(.hidden-by-search) input");
+  var visibleSkinnables = document.querySelectorAll(".skinnable:not(.hidden-by-search) input");
   Array.from(visibleSkinnables).forEach(i => i.checked = false);
   bundleFormDidChange();
 }
@@ -91,14 +105,14 @@ Array.from(bundleFormInputs).forEach(i => i.addEventListener('input', bundleForm
 bundleFormDidChange();
 
 var searchSkinnableTableInputDidChange = function(e){
-  var skinnableRows = document.querySelectorAll("#bundle-form-skinnable-table tr");
+  var skinnableRows = document.querySelectorAll(".skinnable");
   var searchText = document.querySelector('#search-skinnable-table-input').value;
   var countOfUncheckedVisibleRows = 0;
 
   var trMatchesSearchText = function(tr, searchText){
 
     var mustIncludeTerms = searchText.split(' ').filter(i => i[0] != '-')
-    var mustNotIncludeTerms = searchText.split(' ').filter(i => i[0] == '-').map(i => i.substring(1))
+    var mustNotIncludeTerms = searchText.split(' ').filter(i => i[0] == '-' && i.length > 1).map(i => i.substring(1))
 
     return(
       mustIncludeTerms.every(term => tr.textContent.includes(term)) && 
